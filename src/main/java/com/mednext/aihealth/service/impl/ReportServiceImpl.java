@@ -2,6 +2,7 @@ package com.mednext.aihealth.service.impl;
 
 import com.mednext.aihealth.entity.Report;
 import com.mednext.aihealth.entity.ReportStatus;
+import com.mednext.aihealth.orchestrator.ReportOrchestrator;
 import com.mednext.aihealth.repository.ReportRepository;
 import com.mednext.aihealth.service.FileStorageService;
 import com.mednext.aihealth.service.ReportService;
@@ -19,6 +20,9 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private FileStorageService fileStorageService;
 
+    @Autowired
+    private ReportOrchestrator orchestrator;
+
     @Override
     public Object uploadReport(MultipartFile file, Integer userId)
     {
@@ -29,6 +33,9 @@ public class ReportServiceImpl implements ReportService {
         report.setStatus(ReportStatus.UPLOADED);
 
         reportRepo.save(report);
+
+        // Trigger async processing
+        orchestrator.processReport(report);
 
         return Map.of(
                 "report_id",report.getReportId(),
