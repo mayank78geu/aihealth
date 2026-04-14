@@ -1,4 +1,7 @@
 package com.mednext.aihealth.repository;
 
-public interface UserRepository {
+import com.mednext.aihealth.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
 }
