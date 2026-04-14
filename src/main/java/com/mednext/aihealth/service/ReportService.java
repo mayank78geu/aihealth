@@ -1,4 +1,7 @@
 package com.mednext.aihealth.service;
 
-public class ReportService {
+import org.springframework.web.multipart.MultipartFile;
+
+public interface ReportService {
+    Object uploadReport(MultipartFile file, Integer userId);
 }
